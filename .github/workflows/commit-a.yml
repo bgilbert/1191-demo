@@ -1,0 +1,24 @@
+name: Commit to A
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  commit-a:
+    name: Commit to A
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Increment A
+        run: |
+          new=$(( $(cat a) + 1 ))
+          echo $new > a
+
+          git config --global user.email "robot@example.com"
+          git config --global user.name "Robot"
+          git commit -am "Bump A to $new"
+          git push
